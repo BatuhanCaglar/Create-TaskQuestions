@@ -3,6 +3,7 @@
 ## AP® Computer Science Principles Written Response Prompts
 
 ### Instructions:
+
 - **Time:** 1 hour
 - **Questions:** 2
 - Read each question carefully and completely.
@@ -10,37 +11,113 @@
 - You may plan your answers in this orange booklet, but no credit will be given for anything written in this booklet. You will only earn credit for what you write in the separate Written Response booklet.
 
 ---
+
 ### Pre-FRQ Practice
 
-## Identify the Algorithm present in the JavaScript Files. 
+## Identify the Algorithm present in the JavaScript Files.
+
 ### Aspects of Algorithm
+
 Sequencing
-Selection 
+Selection
 Iteration
 
-
-
 ### Question 1
+
 Programs accept input to achieve their intended functionality. **Describe at least one valid input to your program and what your program does with that input.**
 
 - Write your responses to this question only on the designated pages in the separate Written Response booklet.
 - If there are multiple parts to this question, write the part letter with your response.
 
----
+Angelina
+Input
+
+```JavaScript
+DOMSelect.submit.addEventListener("click", function () {
+  insertText(DOMSelect.input.childNodes), "paste";
+});
+DOMSelect.fileinput.addEventListener("change", parseFile);
+
+function parseFile() {
+  let fr = new FileReader();
+  fr.onload = function () {
+    const content = fr.result;
+    insertText(content.split("\n"), "file");
+  };
+  fr.readAsText(this.files[0]);
+}
+
+```
+
+This takes the text of whatever the user inputs through an event listener.
+
+Output
+
+```Javascript
+function insertText(inputContent, type) {
+  DOMSelect.results.insertAdjacentHTML("beforeend", `<br></br>`);
+  const content = inputContent;
+  if (type === "file") {
+    content.forEach(function (item) {
+      DOMSelect.results.insertAdjacentHTML(
+        "beforeend",
+        `<p class="text">${item}</p>`
+      );
+    });
+  } else {
+    content.forEach(function (item) {
+      DOMSelect.results.insertAdjacentHTML(
+        "beforeend",
+        `<p class="text">${item.textContent}</p>`
+      );
+    });
+    DOMSelect.input.innerHTML = "";
+  }
+  DOMSelect.inputbox.style.display = "none";
+  DOMSelect.settings.style.display = "";
+}
+```
+
+It then takes the input, puts into another function and outputs it through insertAdjacentHTML. It then allows the user to customize the css through more functions.
 
 ### Question 2
+
 Refer to your Personalized Project Reference when answering this question.
 
 #### Part (a):
+
 Consider the first iteration statement included in the Procedure section of your Personalized Project Reference. **Describe what is being accomplished by the code in the body of the iteration statement.**
 
+```Javascript
+  if (type === "file") {
+    content.forEach(function (item) {
+      DOMSelect.results.insertAdjacentHTML(
+        "beforeend",
+        `<p class="text">${item}</p>`
+      );
+    });
+  } else {
+    content.forEach(function (item) {
+      DOMSelect.results.insertAdjacentHTML(
+        "beforeend",
+        `<p class="text">${item.textContent}</p>`
+      );
+    });
+```
+
+Here we can see a if and else statement sorting through the kinds of input that the user provides. Then they use forEach to iterate through each input or item that the user gives us
+
 #### Part (b):
+
 Consider the procedure identified in part (i) of the Procedure section of your Personalized Project Reference.
+
 - Write two calls to your procedure that each cause a different code segment in the procedure to execute.
 - Describe the expected behavior of each call. If it is not possible for two calls to your procedure to cause different code segments to execute, explain why this is the case for your procedure.
 
 #### Part (c):
+
 Suppose another programmer provides you with a procedure called `checkValidity(value)` that:
+
 - Returns `true` if a value passed as an argument is considered valid by the other programmer.
 - Returns `false` otherwise.
 
@@ -52,4 +129,3 @@ Using the list identified in the List section of your Personalized Project Refer
 ---
 
 ### End of Exam
-
