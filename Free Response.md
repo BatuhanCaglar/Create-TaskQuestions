@@ -33,25 +33,74 @@ Angelina
 Input
 
 ```JavaScript
-DOMSelect.submit.addEventListener("click", function () {
-  insertText(DOMSelect.input.childNodes), "paste";
-});
-DOMSelect.fileinput.addEventListener("change", parseFile);
-
-function parseFile() {
-  let fr = new FileReader();
-  fr.onload = function () {
-    const content = fr.result;
-    insertText(content.split("\n"), "file");
-  };
-  fr.readAsText(this.files[0]);
+function insertText(inputContent, type) {
+  DOMSelect.results.insertAdjacentHTML("beforeend", `<br></br>`);
+  const content = inputContent;
+  if (type === "file") {
+    content.forEach(function (item) {
+      DOMSelect.results.insertAdjacentHTML(
+        "beforeend",
+        `<p class="text">${item}</p>`
+      );
+    });
+  } else {
+    content.forEach(function (item) {
+      DOMSelect.results.insertAdjacentHTML(
+        "beforeend",
+        `<p class="text">${item.textContent}</p>`
+      );
+    });
+    DOMSelect.input.innerHTML = "";
+  }
+  DOMSelect.inputbox.style.display = "none";
+  DOMSelect.settings.style.display = "";
 }
+
 
 ```
 
+Butter
+Input
+
+```JavaScript
+
+function retrieveFeelingQuote(category) {
+  DOMSelectors.mainOutput.innerHTML = ""; //Gets rid of previous current quote
+  $.ajax({
+    method: "GET",
+    url: "https://api.api-ninjas.com/v1/quotes?category=" + category,
+    headers: { "X-Api-Key": "e83S07p6GaMOgL3Tbp4W7g==SzjBmXqoFLEGxuow" },
+    contentType: "application/json",
+    success: function (result) {
+      console.log("Retrieved Quote:", result); //Check: Quote Retrieval
+      const quoteObject = {
+        author: result[0].author,
+        quote: result[0].quote,
+        category: category,
+      };
+      quoteHistory.push(quoteObject); //Quote added to long term storage (History)
+      console.log("History of Quotes:", quoteHistory); //Check to see if in long term
+      quoteCurrent.length = 0; //Empty quoteCurrent
+      quoteCurrent.push(quoteObject); //Quote added to short term storage (Current Quote)
+      // Display the quote on the page
+      console.log("Current Quote:", quoteCurrent); //Check to see if current quote works
+      for (let i = 0; i < quoteCurrent.length; i++) {
+        const quote = quoteCurrent[i];
+        createQuoteCard(quote);
+      }
+    },
+    error: function ajaxError(jqXHR) {
+      console.error("Error: ", jqXHR.responseText);
+    },
+  });
+}
+```
+
+We get an input from the API
+
 This takes the text of whatever the user inputs through an event listener.
 
-Output
+Output Angelina
 
 ```Javascript
 function insertText(inputContent, type) {
@@ -80,6 +129,24 @@ function insertText(inputContent, type) {
 
 It then takes the input, puts into another function and outputs it through insertAdjacentHTML. It then allows the user to customize the css through more functions.
 
+Output Butter
+
+```Javascript
+const createQuoteCard = function (quoteCurrent) {
+  DOMSelectors.mainOutput.insertAdjacentHTML(
+    "afterbegin",
+    `<div class="created-card">
+        <h2 class="created-card-quote"> "${quoteCurrent.quote}" </h2>
+        <h2 class="created-card-author"> - ${quoteCurrent.author} </h2>
+        <h2 class="created-card-category"> ${quoteCurrent.category} </h2>
+    </div>
+    `
+  );
+};
+```
+
+They take the input and output it through insertAdjacent HTML
+
 ### Question 2
 
 Refer to your Personalized Project Reference when answering this question.
@@ -87,6 +154,8 @@ Refer to your Personalized Project Reference when answering this question.
 #### Part (a):
 
 Consider the first iteration statement included in the Procedure section of your Personalized Project Reference. **Describe what is being accomplished by the code in the body of the iteration statement.**
+
+Sequencing Angelina
 
 ```Javascript
   if (type === "file") {
@@ -107,7 +176,24 @@ Consider the first iteration statement included in the Procedure section of your
 
 Here we can see a if and else statement sorting through the kinds of input that the user provides. Then they use forEach to iterate through each input or item that the user gives us
 
-#### Part (b):
+Sequencing Butter
+
+```Javascript
+DOMSelectors.historyButton.addEventListener("click", function () {
+  displayHistory();
+});
+const displayHistory = function () {
+  DOMSelectors.mainOutput.innerHTML = ""; // Clear previous quote
+  for (let i = 0; i < quoteHistory.length; i++) {
+    const quote = quoteHistory[i];
+    createQuoteCard(quote);
+  }
+};
+```
+
+This is the first sequencing or iterations
+
+### Part (b):
 
 Consider the procedure identified in part (i) of the Procedure section of your Personalized Project Reference.
 
@@ -129,3 +215,7 @@ Using the list identified in the List section of your Personalized Project Refer
 ---
 
 ### End of Exam
+
+```
+
+```
